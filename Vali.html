@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <title>Kitty Valentine 💌</title>
+
+  <!-- TENOR GIF -->
+  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "DM Sans", sans-serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      color: white;
+    }
+
+    /* GIF BACKGROUND */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: -1;
+    }
+
+    .screen {
+      display: none;
+      height: 100vh;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #screen4 video {
+      width: 300px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-top: 1rem;
+    }
+
+    h1 {
+      color: #fd5291;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: #ffffff;
+      font-size: 0.95rem;
+    }
+
+    input {
+      width: 260px;
+      padding: 12px;
+      border-radius: 25px;
+      border: none;
+      margin-top: 1rem;
+      text-align: center;
+      outline: none;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 12px 34px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      background: #ff5c8a;
+      color: #fff;
+      transition: transform 0.2s ease;
+      position: relative;
+      overflow: visible;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .card {
+      background: rgb(143, 94, 112);
+      color: #4b4a4a;
+      padding: 2rem;
+      border-radius: 13px;
+      width: 500px;
+      max-width: 90%;
+      box-shadow: 0 25px 45px rgba(0,0,0,0.2);
+      border: #fd5291 3px solid;
+    }
+
+    /* LETTER */
+    .letter {
+      width: 200px;
+      height: 140px;
+      background: #f1c4d8;
+      border-radius: 1px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      animation: bounce 1.5s infinite;
+    }
+
+    .letter::after {
+      content: "💌";
+      font-size: 2rem;
+    }
+
+    .indicator {
+      margin-top: 1rem;
+      color: #ff5c8a;
+      font-size: 0.9rem;
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+
+    .buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .secondary {
+      background: #eee;
+      color: #333;
+    }
+
+    #response {
+      margin-top: 1rem;
+      color: #ff5c8a;
+      font-weight: 600;
+      min-height: 1.5em;
+    }
+
+    /* Heart animation */
+    .heart {
+      position: absolute;
+      font-size: 1.2rem;
+      color: #ff5c8a;
+      animation: flyUp 1s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes flyUp {
+      0% {
+        transform: translate(0,0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--x), var(--y)) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* GIF wrapper for size control */
+    .gif-wrapper {
+      max-width: 300px;
+      margin: 1rem auto;
+    }
+
+    .gif-wrapper iframe {
+      width: 100% !important;
+      height: auto !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- BACKGROUND GIF -->
+  <div class="bg">
+    <div class="tenor-gif-embed"
+      data-postid="17954931"
+      data-share-method="host"
+      data-aspect-ratio="1.23552"
+      data-width="100%">
+    </div>
+  </div>
+  <div class="overlay"></div>
+
+  <!-- SCREEN 1: NAME -->
+  <div class="screen active" id="screen1">
+    <h1>Please Enter your name Sweetie🐱</h1>
+    <input id="nameInput" placeholder="Your name..." />
+    <button onclick="checkName()">Proceed 💗</button>
+    <p id="errorMsg"></p>
+  </div>
+
+  <!-- SCREEN 2: LETTER -->
+  <div class="screen" id="screen2">
+    <div class="card">
+      <div class="letter" onclick="openLetter()"></div>
+      <div class="indicator">click the letter 💌</div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: VALENTINE -->
+  <div class="screen" id="screen3">
+    <div class="card">
+      <h1>Louis, will you be my Valentine? 🥺🥺🥺🥺</h1>
+      <div class="buttons">
+        <button id="yesBtn3">YES 💖</button>
+        <button id="noBtn" class="secondary">NO </button>
+      </div>
+      <div id="response"></div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: TIME -->
+  <div class="screen" id="screen4">
+    <div class="card">
+      <h1>One last thing 😌</h1>
+      <p>Are you available at <strong>18:00</strong><br/>so we can WATCH this anime together? 🥺🥺🥺🥺💕</p>
+      <video autoplay loop muted>
+        <source src="anime.mp4" type="video/mp4">
+      </video>
+      <button id="yesBtn4">YEBO</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: I LOVE YOU -->
+  <div class="screen" id="screen5">
+    <div class="card">
+      <h1>I LOVE YOU SO MUCH LOUIS 😻</h1>
+      <p>Can't wait to spend this day with you 💖</p>
+
+     <div class="tenor-gif-embed" data-postid="4970489553519948549" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/twitter-kiwi-bubu-dudu-gif-4970489553519948549">Twitter Kiwi GIF</a>from <a href="https://tenor.com/search/twitter-gifs">Twitter GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+      <button id="yesBtn5">I love you Moree! My Pwecious Pwincess</button>
+    </div>
+  </div>
+
+  <script>
+    function showScreen(num) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById("screen" + num).classList.add("active");
+    }
+
+    function checkName() {
+      const input = document.getElementById("nameInput").value.trim().toLowerCase();
+      const error = document.getElementById("errorMsg");
+
+      if (input === "louis") {
+        showScreen(2);
+      } else {
+        error.textContent = "***Sorry 😼 this page is only for My man lol.";
+      }
+    }
+
+    function openLetter() {
+      showScreen(3);
+    }
+
+    const yesBtn3 = document.getElementById("yesBtn3");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn4 = document.getElementById("yesBtn4");
+    const yesBtn5 = document.getElementById("yesBtn5");
+    const response = document.getElementById("response");
+
+    // No button moves on hover
+    noBtn.addEventListener("mouseenter", () => {
+      const x = Math.random() * 160 - 80;
+      const y = Math.random() * 120 - 60;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    noBtn.addEventListener("click", () => {
+      noBtn.style.display = "none";
+      response.textContent = "Well man, You don't have a choice 😼";
+    });
+
+    // Screen 3 YES → Screen 4
+    yesBtn3.addEventListener("click", () => {
+      showScreen(4);
+    });
+
+    // Screen 4 YEBO → Screen 5
+    yesBtn4.addEventListener("click", () => {
+      showScreen(5);
+    });
+
+    // Screen 5: Heart explosion
+    yesBtn5.addEventListener("click", () => {
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement("span");
+        heart.classList.add("heart");
+        heart.textContent = "💖";
+
+        const x = Math.random() * 200 - 100 + "px";
+        const y = -(Math.random() * 200 + 50) + "px";
+        heart.style.setProperty('--x', x);
+        heart.style.setProperty('--y', y);
+
+        yesBtn5.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 1000);
+      }
+    });
+  </script>
+
+</body>
+</html>
